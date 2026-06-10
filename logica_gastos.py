@@ -1,9 +1,18 @@
 import datetime
 
+
 # AGREGAR GASTO
 
 def agregar_gasto(historial, categoria, monto, descripcion):
-    
+
+    try:
+        with open("mis_gastos.txt", "a") as archivo:
+            fecha = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
+            archivo.write(f"{fecha} | {categoria} | $ {monto} | {descripcion} \n")
+        print("✅ ¡El archivo se actualizó correctamente!")
+    except Exception as e:
+        print(f"❌ Error detectado: {e}")
+        
     """
     PROPÓSITO:
     Esta funcion es la encargada de realizar el registro del gasto y agregarlo a la lista historial = [].
@@ -20,6 +29,7 @@ def agregar_gasto(historial, categoria, monto, descripcion):
     Devuelve True
     
     """
+
     nuevo_gasto = {
         "categoria" : categoria,
         "monto" : monto,
@@ -50,7 +60,7 @@ def ver_historial(historial):
         return
     
     for datos in historial:
-        print(f"Categoria: {datos['categoria']} | Monto: ${datos['monto']:.2f}")
+        print(f"Categoria: {datos['categoria']} | Monto: ${datos['monto']}")
 
 # CALCULO TOTAL DE GASTOS
 
@@ -66,7 +76,7 @@ def calcular_total(historial):
     """
     
     total = sum(gasto['monto'] for gasto in historial)
-    return f"El total de los gastos registrados es de: {total:,.2f}"
+    return f"El total de los gastos registrados es de: {total}"
 
 # BUSQUEDA DE GASTOS
 
@@ -76,7 +86,7 @@ def buscar_gasto(historial, termino):
     
     for busqueda in historial:
         
-        if termino.lower() in busqueda['categoria'].lower() or termino.lower() in busqueda['descripcion'].lower():
+        if termino.lower() in busqueda['categoria'] or termino.lower() in busqueda['descripcion']:
             print(f"Categoria: {busqueda['categoria']} | Descripción: {busqueda['descripcion']}")
             encontrado = True
             
@@ -132,7 +142,7 @@ def mostrar_reporte(historial):
     minimo = min(montos)
 
     print(f"--- REPORTE ESTADÍSTICO ---")
-    print(f"Total gastado:      ${total:,.2f}")
-    print(f"Promedio de gastos: ${promedio:.2f}")
-    print(f"Gasto más elevado:  ${maximo:.2f}")
-    print(f"Gasto más bajo:     ${minimo:.2f}")
+    print(f"Total gastado:      ${total}")
+    print(f"Promedio de gastos: ${promedio}")
+    print(f"Gasto más elevado:  ${maximo}")
+    print(f"Gasto más bajo:     ${minimo}")
