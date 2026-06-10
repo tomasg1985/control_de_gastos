@@ -33,12 +33,14 @@ while True:
             print(f"{Fore.CYAN}AGREGAR GASTO")
             print(f"{Fore.CYAN}===================="+ Style.RESET_ALL)
             
-            categoria = input("Ingrese la categoria de su gasto ('ej: Alquiler'): ").strip().capitalize()
-            monto = float(input("Indique el monto: "))
-            descripcion = input("Ingrese una descripcion corta: ").strip().capitalize()
+            categoria = input("Ingrese la categoria de su gasto ('ej: Alquiler'): ").strip()
+            monto = int(input("Indique el monto: "))
+            descripcion = input("Ingrese una descripcion corta: ").strip()
             
             agregar_gasto(historial, categoria, monto, descripcion)
-            print(f"{Fore.GREEN}Gasto registrado con exito!"+ Style.RESET_ALL)
+            print(f"{Fore.GREEN}====================")
+            print(f"{Fore.GREEN}Gasto registrado con exito!")
+            print(f"{Fore.GREEN}===================="+ Style.RESET_ALL)
             
         case "3":
             print(f"{Fore.CYAN}====================")
@@ -54,7 +56,9 @@ while True:
             print(f"{Fore.CYAN}===================="+ Style.RESET_ALL)
             
             eliminar_gasto(historial)
-            print(f"{Fore.GREEN}Gasto eliminado con exito!"+ Style.RESET_ALL)
+            print(f"{Fore.GREEN}====================")
+            print(f"{Fore.GREEN}Gasto eliminado con exito!")
+            print(f"{Fore.GREEN}===================="+ Style.RESET_ALL)
             
         case "5":
             print(f"{Fore.CYAN}====================")
