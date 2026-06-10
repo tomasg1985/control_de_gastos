@@ -6,7 +6,7 @@ import datetime
 def agregar_gasto(historial, categoria, monto, descripcion):
 
     try:
-        with open("mis_gastos.txt", "a") as archivo:
+        with open("[NOMBRE_DE_ARCHIVO].txt", "a") as archivo:
             fecha = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
             archivo.write(f"{fecha} | {categoria} | $ {monto} | {descripcion} \n")
         print("✅ ¡El archivo se actualizó correctamente!")
