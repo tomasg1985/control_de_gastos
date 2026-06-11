@@ -34,7 +34,7 @@ while True:
             print(f"{Fore.CYAN}===================="+ Style.RESET_ALL)
             
             categoria = input("Ingrese la categoria de su gasto ('ej: Alquiler'): ").strip()
-            monto = int(input("Indique el monto: "))
+            monto = float(input("Indique el monto: "))
             descripcion = input("Ingrese una descripcion corta: ").strip()
             
             agregar_gasto(historial, categoria, monto, descripcion)
