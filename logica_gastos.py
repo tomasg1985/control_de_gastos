@@ -17,6 +17,11 @@ cursor.execute('''
 # CARGAR DATOS PREVIOS AL CARGAR EL SISTEMA
 
 def cargar_datos_desde_db():
+    """
+    Recupera todos los registros de la base de datos SQLite.
+    Retorna:
+        list: Una lista de diccionarios con el historial completo.
+    """
     try:
         cursor.execute("SELECT * FROM historial_gastos")
         filas = cursor.fetchall() # Trae todos los registros como tuplas [cite: 3]
@@ -140,6 +145,12 @@ def buscar_gasto(historial, termino):
 # ELIMINAR GASTOS
 
 def eliminar_gasto(historial):
+    """
+    Permite al usuario seleccionar un gasto para borrarlo.
+    Sincroniza la eliminación tanto en la lista local como en la base de datos.
+    Parámetros:
+        historial (list): Lista de diccionarios con los gastos.
+    """
     for i, gasto in enumerate(historial, start=1):
         print(f"{i}. {gasto['categoria']} - ${gasto['monto']}")
         
@@ -162,6 +173,12 @@ def eliminar_gasto(historial):
 # EDITAR GASTOS
 
 def editar_gasto(historial):
+    """
+    Actualiza los datos (categoría, monto, descripción) de un gasto existente.
+    Impacta los cambios en la lista 'historial' y ejecuta el UPDATE en SQLite.
+    Parámetros:
+        historial (list): Lista de diccionarios a modificar.
+    """
     
     for i, gasto in enumerate(historial, start=1):
         print(f"{i}. {gasto['categoria']} - ${gasto['monto']}")
@@ -196,6 +213,11 @@ def editar_gasto(historial):
 # REPORTE DE GASTOS
 
 def mostrar_reporte(historial):
+    """
+    Calcula y muestra estadísticas: total, promedio, máximo y mínimo.
+    Parámetros:
+        historial (list): Datos para realizar el análisis estadístico.
+    """
     if not historial:
         return 
     
