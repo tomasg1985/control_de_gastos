@@ -91,3 +91,6 @@ while True:
         
         case _:
             print(f"{Fore.RED}Opcion incorrecta!"+ Style.RESET_ALL)
+            
+conexion.close()
+print(f"{Fore.GREEN}Conexión cerrada. ¡Hasta luego!{Style.RESET_ALL}")
