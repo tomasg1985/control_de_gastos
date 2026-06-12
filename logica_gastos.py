@@ -24,11 +24,11 @@ def cargar_datos_desde_db():
     """
     try:
         cursor.execute("SELECT * FROM historial_gastos")
-        filas = cursor.fetchall() # Trae todos los registros como tuplas [cite: 3]
+        filas = cursor.fetchall()
         
         lista_cargada = []
         for f in filas:
-            # Convertimos la tupla de la DB a tu diccionario [cite: 138, 276]
+
             gasto = {
                 "id": f,
                 "descripcion": f[1],
