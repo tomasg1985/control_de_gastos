@@ -13,6 +13,7 @@ cursor.execute('''
         categoria TEXT NOT NULL
     )
 ''')
+conexion.commit()
 
 # CARGAR DATOS PREVIOS AL CARGAR EL SISTEMA
 
@@ -232,3 +233,5 @@ def mostrar_reporte(historial):
     print(f"Promedio de gastos: ${promedio:.2f}")
     print(f"Gasto más elevado:  ${maximo:.2f}")
     print(f"Gasto más bajo:     ${minimo:.2f}")
+
+conexion.close()
