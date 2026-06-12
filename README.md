@@ -1,64 +1,83 @@
-# 📊 Sistema de Gestión de Gastos Personales
+# 📊 Sistema de Gestión Financiera Analítico con Persistencia SQL y Auditoría TXT
 
-Una solución interactiva y estructurada desarrollada en **Python** para la administración de finanzas personales. A través de una interfaz por línea de comandos organizada, el sistema permite registrar, monitorear y analizar flujos financieros diarios de forma ágil y centralizada para optimizar la toma de decisiones.
-
----
-
-### 🚀 Características Técnicas
-
-*   **Gestión Integral (CRUD):** Arquitectura con funciones dinámicas completas para la creación, lectura, actualización y eliminación de registros de gastos.
-*   **Trazabilidad Automatizada:** Integración nativa del módulo `datetime` para realizar un sellado de tiempo (*timestamping*) automático con la fecha y hora exacta de cada transacción.
-*   **Reportes Estadísticos en Tiempo Real:** Motor de análisis de datos que genera métricas clave instantáneas, incluyendo el total acumulado, promedio ponderado de egresos, y picos de consumo (valores máximos y mínimos).
-*   **Experiencia de Usuario (UX):** Menús interactivos y alertas jerárquicas estilizadas con la librería **Colorama** para un feedback visual efectivo en consola.
+Una solución analítica y robusta desarrollada en **Python** para el control y auditoría de finanzas personales. Este ecosistema implementa una arquitectura híbrida avanzada: combina la velocidad de procesamiento en memoria de estructuras de listas y diccionarios, la persistencia estructurada de un motor relacional de base de datos y un sistema secundario redundante de auditoría por archivos planos.
 
 ---
 
-### 🛠️ Stack Tecnológico y Requisitos
+### 🚀 Innovaciones y Características Técnicas
 
-*   **Lenguaje:** Python 3.10+ *(Requerido para el soporte nativo de la estructura estructural `match-case`)*
-*   **Librerías:** [Colorama](https://pypi.org) (Manejo y formateo de colores en la terminal)
-
----
-
-### 📂 Estructura y Arquitectura de Archivos
-
-El sistema implementa una separación clara entre la interfaz con el usuario y las reglas de negocio financieras:
-
-1.  **`main.py`**: El punto de entrada de la aplicación. Orquesta el bucle de ejecución principal y la navegación del menú dinámico.
-2.  **`logica_gastos.py`**: El núcleo analítico. Módulo autónomo que centraliza todas las funciones de procesamiento numérico, validación, cálculos estadísticos y manipulación de estructuras de datos.
+*   **Persistencia Relacional Avanzada (SQLite):** Implementación de una base de datos embebida con esquemas normalizados e índices autoincrementales (`INTEGER PRIMARY KEY AUTOINCREMENT`) para asegurar la integridad física de las transacciones financieras.
+*   **Sistema de Logs Defensivo (.txt):** Mecanismo secundario de auditoría que inyecta en caliente un registro histórico redundante cada vez que ocurre un evento de escritura, utilizando manejadores de contexto seguros (`with open()`).
+*   **Sellado de Tiempo Dinámico (*Timestamping*):** Integración precisa del módulo `datetime` para registrar con exactitud cronológica (`%d/%m/%Y %H:%M`) cada uno de los movimientos económicos procesados.
+*   **Motor Analítico y Estadístico Integrado:** Algoritmos optimizados para el cálculo de reportes agregados en tiempo real: promedio ponderado, sumatorias acumuladas (`sum()`), y detección de extremos financieros (picos máximos y mínimos de consumo).
+*   **Sincronización de Estado Local / Disco:** Capacidad de inicialización inteligente que consulta el disco al arrancar el programa, transforma las tuplas relacionales en estructuras nativas de Python y reconstruye dinámicamente la memoria de la aplicación.
 
 ---
 
-### ⚙️ Instalación y Ejecución
+### 🛠️ Stack Tecnológico
 
-Sigue estos pasos para clonar, configurar y ejecutar el sistema de forma local:
+*   **Lenguaje:** Python 3.10+ *(Soporte de coincidencia estructural mediante match-case)*
+*   **Persistencia Core:** [SQLite3](https://python.org) (Base de datos relacional integrada)
+*   **Persistencia de Auditoría:** File System I/O nativo (Escritura asíncrona de archivos `.txt`)
+*   **Librerías de Soporte:** `datetime` (Marcado temporal), `colorama` (Feedback UX en consola)
 
-1. **Clonar el repositorio:**
+---
+
+### 🗄️ Esquema de la Base de Datos Relacional
+
+Al inicializarse, el sistema asegura la estructura del almacenamiento local creando de manera automatizada la siguiente entidad relacional:
+
+```sql
+CREATE TABLE IF NOT EXISTS historial_gastos(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    descripcion TEXT NOT NULL,
+    monto REAL NOT NULL,
+    fecha TEXT NOT NULL,
+    categoria TEXT NOT NULL
+);
+```
+
+---
+
+### 📂 Arquitectura del Módulo Lógico (`logica_gastos.py`)
+
+Las reglas de negocio y mutaciones de datos del software se rigen por la siguiente API de funciones:
+
+| Función | Tipo de Operación | Impacto Técnico |
+| :--- | :--- | :--- |
+| `cargar_datos_desde_db()` | **Boot / Lectura** | Extrae las tuplas del archivo `.db`, las mapea en diccionarios y genera la lista de estado principal. |
+| `agregar_gasto()` | **Escritura Dual (INSERT / Append)** | Registra la operación en la DB relacional, actualiza la lista en memoria y escribe una línea de log en `historial_gastos.txt`. |
+| `ver_historial()` | **Lectura Estructurada** | Itera y desestructura los diccionarios formateando los montos numéricos con precisión decimal (`:.2f`). |
+| `buscar_gasto()` | **Filtro de Texto** | Algoritmo de búsqueda insensible a mayúsculas (`.lower()`) que escanea en paralelo categorías y descripciones. |
+| `editar_gasto()` | **Mutación (UPDATE)** | Modifica los punteros de la lista local por índice (`.update()`) y ejecuta la actualización relacional filtrando por ID único. |
+| `eliminar_gasto()` | **Destrucción (DELETE)** | Remueve el elemento de la memoria intermedia (`.pop()`) y ejecuta la sentencia física de borrado en SQLite. |
+| `mostrar_reporte()` | **Análisis de Datos** | Aplica comprensiones de listas sobre los montos de la aplicación para aislar y procesar las variables estadísticas del sistema. |
+
+---
+
+### ⚙️ Instalación y Operación Local
+
+Configura el sistema financiero en tu computadora ejecutando los siguientes comandos:
+
+1. **Clonar el repositorio optimizado:**
    ```bash
    git clone https://github.com
    cd control_de_gastos
    ```
 
-2. **Instalar las dependencias necesarias:**
+2. **Instalar el manejador de color de interfaz:**
    ```bash
    pip install colorama
    ```
 
-3. **Iniciar la aplicación:**
+3. **Iniciar el programa principal:**
    ```bash
    python main.py
    ```
-
----
-
-### 📖 Guía Rápida de Operación
-
-1.  Al iniciar el sistema, interactúa mediante el panel de opciones numéricas (1-8).
-2.  **Registro de Transacciones:** Al agregar un gasto, ingresa la categoría, el monto numérico y una descripción. La aplicación inyectará el metadato temporal de manera automática.
-3.  **Auditoría Financiera:** Utiliza la opción de *Generar Reporte* para desplegar el cuadro consolidado de estadísticas en tiempo real.
+   *(Nota: El sistema generará automáticamente los archivos `historial_gastos.db` e `historial_gastos.txt` en el primer inicio).*
 
 ---
 
 ### 📄 Licencia
 
-Este proyecto se distribuye bajo la Licencia MIT. Consulta el archivo original para más información.
+Este proyecto está bajo la Licencia MIT. Libre para fines educativos y desarrollo profesional continuo.
